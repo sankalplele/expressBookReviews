@@ -54,11 +54,11 @@ public_users.get('/isbn/:isbn',async function (req, res) {
 
  });
   
-public_users.get('/author/:author',function (req, res) {
-  const keys = Object.keys(books);
+public_users.get('/author/:author',async function (req, res) {
+  const keys = await Object.keys(books);
   const author = req.params.author;
   let filtered_books = [];
-  keys.forEach((key) => {
+  await keys.forEach((key) => {
     if(books[key].author === author){
         filtered_books.push(books[key])
     }
@@ -69,11 +69,11 @@ public_users.get('/author/:author',function (req, res) {
 });
 
 // Get all books based on title
-public_users.get('/title/:title',function (req, res) {
-    const keys = Object.keys(books);
+public_users.get('/title/:title',async function (req, res) {
+    const keys = await Object.keys(books);
     const title = req.params.title;
     let filtered_books = [];
-    keys.forEach((key) => {
+    await keys.forEach((key) => {
       if(books[key].title === title){
           filtered_books.push(books[key])
       }
@@ -83,10 +83,10 @@ public_users.get('/title/:title',function (req, res) {
 });
 
 //  Get book review
-public_users.get('/review/:isbn',function (req, res) {
+public_users.get('/review/:isbn',async function (req, res) {
     const isbn = req.params.isbn;
     if(isbn){
-      const filtered_book = books[isbn];
+      const filtered_book = await books[isbn];
       if(filtered_book){
           return res.status(300).json({"reviews": filtered_book.reviews});
       }else{
