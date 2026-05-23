@@ -30,15 +30,21 @@ public_users.post("/register", (req,res) => {
     return res.status(404).json({message: "Unable to register user."});
 });
 
-public_users.get('/',function (req, res) {
-  const books_string = JSON.stringify(books, null, 4);
+public_users.get('/',async function (req, res) {
+    try{
+        const data = await books;
+  const books_string = JSON.stringify(data, null, 4);
   return res.status(300).send(books_string);
+    }catch(e){
+        console.log(e);
+        return res.send("error")
+    }
 });
 
-public_users.get('/isbn/:isbn',function (req, res) {
+public_users.get('/isbn/:isbn',async function (req, res) {
   const isbn = req.params.isbn;
   if(isbn){
-    const filtered_book = JSON.stringify(books[isbn], null, 4);
+    const filtered_book = await JSON.stringify(books[isbn], null, 4);
     if(filtered_book){
         return res.status(300).send(filtered_book);
     }else{
