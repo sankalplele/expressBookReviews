@@ -48,7 +48,7 @@ public_users.get('/isbn/:isbn',async function (req, res) {
     if(filtered_book){
         return res.status(300).send(filtered_book);
     }else{
-        return res.send("Book not found")
+        return res.json({message: "Book not found"})
     }
   }
 
@@ -58,7 +58,8 @@ public_users.get('/author/:author',async function (req, res) {
   const keys = await Object.keys(books);
   const author = req.params.author;
   let filtered_books = [];
-  await keys.forEach((key) => {
+  if(author){
+      await keys.forEach((key) => {
     if(books[key].author === author){
         filtered_books.push(books[key])
     }
@@ -66,6 +67,9 @@ public_users.get('/author/:author',async function (req, res) {
   });
   
   return res.status(300).send(JSON.stringify(filtered_books, null, 4));
+  }else{
+      return res.json({"message" : "Author invalid"})
+  }
 });
 
 // Get all books based on title
@@ -73,13 +77,11 @@ public_users.get('/title/:title',async function (req, res) {
     const keys = await Object.keys(books);
     const title = req.params.title;
     let filtered_books = [];
-    await keys.forEach((key) => {
-      if(books[key].title === title){
-          filtered_books.push(books[key])
-      }
-       
-    });
-    return res.status(300).send(JSON.stringify(filtered_books, null, 4));
+    if(title){
+        
+    }else{
+        return res.json({"message": "title not correct!"})
+    }
 });
 
 //  Get book review
@@ -90,8 +92,10 @@ public_users.get('/review/:isbn',async function (req, res) {
       if(filtered_book){
           return res.status(300).json({"reviews": filtered_book.reviews});
       }else{
-          return res.send("Book not found");
+          return res.json({"message": "Book not found"});
       }
+    }else{
+        return res.json({"message": "Invalid request"});
     }
 });
 
