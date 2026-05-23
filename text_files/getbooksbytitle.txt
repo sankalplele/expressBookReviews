@@ -1,0 +1,8 @@
+curl 'localhost:000/title/The%20Divine%20Comedy'
+[
+    {
+        "author": "Dante Alighieri",
+        "title": "The Divine Comedy",
+        "reviews": {}
+    }
+]

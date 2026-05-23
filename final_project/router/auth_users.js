@@ -9,19 +9,68 @@ const isValid = (username)=>{ //returns boolean
 //write code to check is the username is valid
 }
 
-const authenticatedUser = (username,password)=>{ //returns boolean
-//write code to check if username and password match the one we have in records.
+const authenticatedUser = (username, password) => {
+    let validusers = users.filter((user) => {
+        return (user.username === username && user.password === password);
+    });
+    if (validusers.length > 0) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 //only registered users can login
 regd_users.post("/login", (req,res) => {
-  //Write your code here
-  return res.status(300).json({message: "Yet to be implemented"});
+    console.log(users)
+  const username = req.body.username;
+    const password = req.body.password;
+    if (!username || !password) {
+        return res.status(404).json({ message: "Error logging in" });
+    }
+    if (authenticatedUser(username, password)) {
+        let accessToken = jwt.sign({
+            data: password
+        }, 'access', { expiresIn: 60 * 60 });
+        req.session.authorization = {
+            accessToken, username
+        }
+        return res.status(200).send("User successfully logged in");
+    } else {
+        return res.status(208).json({ message: "Invalid Login. Check username and password" });
+    }
 });
 
 // Add a book review
 regd_users.put("/auth/review/:isbn", (req, res) => {
-  //Write your code here
+  const isbn = req.params.isbn;
+  const review = req.query.review;
+  const username = req.session.authorization['username'];
+  // find the book object with the given isbn
+  // find whether the user has got any reviews already
+  // if there is a review(if username is present in the reviews object of the book) we simply replace it
+  // if there is none then we add a review with the username
+  if(isbn){
+    const filtered_book = books[isbn];
+    if(filtered_book){
+        let reviews = filtered_book.reviews;
+        console.log(reviews);
+        const keys = Object.keys(reviews);
+        keys.forEach((key) => {
+            if(key === username){
+                reviews[key] = review;
+                books[isbn].reviews = reviews;
+                console.log(reviews);
+                return res.send("Review added succesfully!");
+            }
+        });
+        reviews[username] = review;
+        console.log(reviews)
+        return res.status(300).send("Review added succesfully!")
+    }else{
+        return res.send("Book not found");
+    }
+  }
   return res.status(300).json({message: "Yet to be implemented"});
 });
 
