@@ -19,10 +19,9 @@ app.use(
 
 app.use("/customer/auth/*", function auth(req, res, next) {
   if (req.session.authorization) {
-    let token = req.session.authorization["accessToken"];
-    jwt.verify(token, "access", (err, user) => {
+    const token = req.session.authorization["accessToken"];
+    jwt.verify(token, "access", (err) => {
       if (!err) {
-        req.user = user;
         next();
       } else {
         return res.status(403).json({ message: "User not authenticated" });
@@ -33,9 +32,9 @@ app.use("/customer/auth/*", function auth(req, res, next) {
   }
 });
 
-const PORT = 4000;
+const PORT = 5000;
 
 app.use("/customer", customer_routes);
 app.use("/", genl_routes);
 
-app.listen(PORT, () => console.log("Server is running"));
+app.listen(PORT, () => console.log(`Server is running on port ${PORT}`));

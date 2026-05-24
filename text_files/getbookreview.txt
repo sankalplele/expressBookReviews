@@ -1,2 +1,4 @@
-curl 'localhost000/review/4'
-{"reviews":{}}
+curl http://localhost:5000/review/4
+
+# Expected response:
+# { "reviews": {} }

@@ -1,6 +1,8 @@
-curl localhost:5000/isbn/3
-{
-    "author": "Dante Alighieri",
-    "title": "The Divine Comedy",
-    "reviews": {}
-}
+curl http://localhost:5000/isbn/3
+
+# Expected response:
+# {
+#   "author": "Dante Alighieri",
+#   "title": "The Divine Comedy",
+#   "reviews": {}
+# }

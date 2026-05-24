@@ -1,2 +1,6 @@
-curl -X POSalhost:5000/customer/login'      -H "Content-Type: application/json"      -d '{"username":"sankalplele","password": "123"}'
-User successfully logged in
+curl -X POST http://localhost:5000/customer/login \
+  -H "Content-Type: application/json" \
+  -d '{"username":"sankalplele","password":"123"}'
+
+# Expected response:
+# { "message": "User successfully logged in" }

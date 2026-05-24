@@ -1,8 +1,6 @@
-curl 'localhost:000/author/Dante%20Alighieri'
-[
-    {
-        "author": "Dante Alighieri",
-        "title": "The Divine Comedy",
-        "reviews": {}
-    }
-]
+curl http://localhost:5000/author/Dante%20Alighieri
+
+# Expected response:
+# [
+#   { "author": "Dante Alighieri", "title": "The Divine Comedy", "reviews": {} }
+# ]
