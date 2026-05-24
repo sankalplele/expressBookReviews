@@ -1,2 +1,2 @@
-http://localhost:4000/customer/auth/review/2?review=Great
-Review added succesfully!
+curl -X PUT "http://localhost:5000/customer/auth/review/2?review=Great" -H "Content-Type: application/json"
+{ "message": "Review added successfully", "reviews": { "<username>": "Great" } }
