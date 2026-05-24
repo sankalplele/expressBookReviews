@@ -102,6 +102,26 @@ regd_users.delete("/auth/review/:isbn", (req, res) => {
   return res.status(200).json({ message: "Review deleted successfully" });
 });
 
+regd_users.delete("/auth/review/:isbn", (req, res) => {
+    const isbn = req.params.isbn;
+    const username = req.session.authorization['username'];
+    // find the book object with the given isbn
+    // find whether the user has got any reviews already
+    // if there is a review(if username is present in the reviews object of the book) we simply replace it
+    // if there is none then we add a review with the username
+    if(isbn){
+      const filtered_book = books[isbn];
+      if(filtered_book){
+          let reviews = filtered_book.reviews;
+          delete reviews[username];
+          console.log(reviews)
+          return res.status(300).send("Review deleted succesfully!")
+      }else{
+          return res.send("Book not found");
+      }
+    }
+  });
+
 module.exports.authenticated = regd_users;
 module.exports.isValid = isValid;
 module.exports.users = users;
